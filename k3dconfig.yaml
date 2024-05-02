@@ -1,0 +1,30 @@
+---
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: api-test
+# image: rancher/k3s:v1.26.10-k3s2  # matches google
+image: rancher/k3s:v1.24.17-k3s1
+servers: 1 # same as `--servers 1`
+agents: 1 # same as `--agents 2`
+registries:
+  create:
+    name: test-registry # name of the registry container
+    hostPort: "5000"
+    # proxy:
+    # remoteURL: https://registry-1.docker.io # proxy DockerHub
+    volumes:
+      - /tmp/reg:/var/lib/registry # persist data locally in /tmp/reg
+  config: | # tell K3s to use this registry when pulling from DockerHub
+    mirrors:
+      "docker.io":
+        endpoint:
+          - http://docker-io:5000
+options:
+  k3d:
+    disableLoadbalancer: true
+  k3s: # options passed on to K3s itself
+    extraArgs: # additional arguments passed to the `k3s server|agent` command; same as `--k3s-arg`
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
