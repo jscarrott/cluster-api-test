@@ -1,4 +1,5 @@
-
+# Maybe use hurl for integration testing, hook up to BDD somehow?
+# Having a play with hurl
 POST http://localhost:8000/events/
 [{
 "type": "user",

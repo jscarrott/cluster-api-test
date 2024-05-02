@@ -1,0 +1,24 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: api-test
+spec:
+  selector:
+    matchLabels:
+      app: api-test
+      role: main
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: api-test
+        role: main
+      name: api-test
+    spec:
+      containers:
+        - name: docker
+          image: "test-registry:5000/api-test-docker:latest"
+          imagePullPolicy: Always
+          command: ["/bin/bash", "-c"]
+          args: ["/api-test.pex api-test.api_test.main:app"]
