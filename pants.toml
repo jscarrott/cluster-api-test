@@ -1,0 +1,18 @@
+[GLOBAL]
+pants_version = "2.21.0a0"
+
+backend_packages = [
+  "pants.backend.python",
+  "pants.backend.docker",
+  "pants.backend.experimental.helm",
+]
+
+[docker.registries.k3d-registry]
+address = "api-test.localhost:5000"
+default = true
+extra_image_tags = ["local"]
+
+[python]
+interpreter_constraints = ['==3.12.*']
+pip_version = "23.1.2"
+enable_resolves = true
